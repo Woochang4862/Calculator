@@ -102,7 +102,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="X"
+                android:text="x"
+                android:textAllCaps="false"
                 android:textSize="30dp"
                 android:onClick="onclick"/>
         </LinearLayout>
@@ -197,11 +198,11 @@
             android:layout_weight="1">
 
             <Button
-                android:id="@+id/btnpm"
+                android:id="@+id/btnb"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="+/-"
+                android:text="BS"
                 android:textSize="30dp"
                 android:onClick="onclick"/>
 

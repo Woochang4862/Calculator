@@ -2,19 +2,22 @@ package com.jeong_woochang.calculator;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnc,btng,btnp,btnd,btnx,btnm,btnf,btnpm,btnj,btne;
+    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,btnc,btng,btnp,btnd,btnx,btnm,btnf,btnb,btnj,btne;
     TextView tv;
     String sik="";
     String id="";
+    String tmp=null;
 
 
     @Override
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         btnx=(Button)findViewById(R.id.btnx);
         btnm=(Button)findViewById(R.id.btnm);
         btnf=(Button)findViewById(R.id.btnf);
-        btnpm=(Button)findViewById(R.id.btnpm);
+        btnb=(Button)findViewById(R.id.btnb);
         btnj=(Button)findViewById(R.id.btnj);
         btne=(Button)findViewById(R.id.btne);
         tv=(TextView)findViewById(R.id.tv);
@@ -49,6 +52,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 tv.setText("0");
                 sik="";
+            }
+        });
+
+        btnb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    sik = sik.substring(0, sik.length() - 1);
+                    tv.setText(sik);
+                }catch(Exception e) {
+                    Log.i("","");
+                }
             }
         });
 
@@ -109,20 +124,30 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnf:
                 id="+";
                 break;
-            case R.id.btnpm:
-                id="";
+            case R.id.btnb:
+                id="<-";
+
                 break;
             case R.id.btnj:
                 id=".";
                 break;
             case R.id.btne:
-                String result=calculate(sik);
-                sik="";
-                id="";
-                tv.setText(result);
-                return;
+                try {
+                    String result = calculate(sik);
+                    sik = "";
+                    id = "";
+                    tv.setText(result);
+                    return;
+                }catch (Exception e) {
+                    Log.i("", "");
+                }
         }
-        sik+=id;
+        if(tmp!=null&&(id.indexOf('+')!=-1||id.indexOf('-')!=-1||id.indexOf('x')!=-1||id.indexOf('/')!=-1||id.indexOf('%')!=-1))
+            sik=tmp+id;
+        else{
+            sik+=id;
+            tmp=null;
+        }
         tv.setText(sik);
     }
 
@@ -173,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
             cnt += Stk_Num.pop();
         }
 
+        tmp=Double.toString(cnt);
         return Double.toString(cnt);
     }
 }
